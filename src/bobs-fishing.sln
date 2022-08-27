@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5379FE42-79F5-4552-8C41-FD3257865D58}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		CodeMaid.config = CodeMaid.config
+		stylecop.json = stylecop.json
+		styles.ruleset = styles.ruleset
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bobs-fishing", "bobs-fishing\bobs-fishing.csproj", "{BBF10B56-EC38-470B-A54E-46713995A413}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bobs-fishing-extended", "bobs-fishing-extended\bobs-fishing-extended.csproj", "{024DDDA5-D4B6-42C3-99FB-47018A5D039B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{CFD8AF3A-3C4A-47AA-A1DC-56D09AF0E6C3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bobs-fishing-tests", "Tests\bobs-fishing-tests\bobs-fishing-tests.csproj", "{F053C2A6-F81D-47CF-A306-E5B8E019431C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bobs-fishing-extended-tests", "Tests\bobs-fishing-extended-tests\bobs-fishing-extended-tests.csproj", "{5FE7AA0B-4C72-4CB4-A445-4557361D68D6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BBF10B56-EC38-470B-A54E-46713995A413}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBF10B56-EC38-470B-A54E-46713995A413}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBF10B56-EC38-470B-A54E-46713995A413}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBF10B56-EC38-470B-A54E-46713995A413}.Release|Any CPU.Build.0 = Release|Any CPU
+		{024DDDA5-D4B6-42C3-99FB-47018A5D039B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{024DDDA5-D4B6-42C3-99FB-47018A5D039B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{024DDDA5-D4B6-42C3-99FB-47018A5D039B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{024DDDA5-D4B6-42C3-99FB-47018A5D039B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F053C2A6-F81D-47CF-A306-E5B8E019431C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F053C2A6-F81D-47CF-A306-E5B8E019431C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F053C2A6-F81D-47CF-A306-E5B8E019431C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F053C2A6-F81D-47CF-A306-E5B8E019431C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FE7AA0B-4C72-4CB4-A445-4557361D68D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FE7AA0B-4C72-4CB4-A445-4557361D68D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FE7AA0B-4C72-4CB4-A445-4557361D68D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FE7AA0B-4C72-4CB4-A445-4557361D68D6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F053C2A6-F81D-47CF-A306-E5B8E019431C} = {CFD8AF3A-3C4A-47AA-A1DC-56D09AF0E6C3}
+		{5FE7AA0B-4C72-4CB4-A445-4557361D68D6} = {CFD8AF3A-3C4A-47AA-A1DC-56D09AF0E6C3}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {91DE2B4D-990D-4EF7-875F-7AA3FE196285}
+	EndGlobalSection
+EndGlobal

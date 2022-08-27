@@ -1,0 +1,45 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
+		<LangVersion>latest</LangVersion>
+		<NoWarn>$(NoWarn);1701;1702;1705;1591;NU1603;IDE0019;IDE0017;RCS1146;RCS1194;</NoWarn>
+		<RootNamespace>BobsFishing.Calculator</RootNamespace>
+		<AssemblyName>BobsFishing.Calculator</AssemblyName>
+		<Company>Bob's Fishing</Company>
+		<Title>Bobs Fishing Calculator</Title>
+		<Product>Bobs Fishing Calculator</Product>
+		<Authors>Bob The Fishing Guy</Authors>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<Deterministic>true</Deterministic>
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageId>BobsFishing.Calculator</PackageId>
+		<PackageIcon>fish.png</PackageIcon>
+		<PackageDescription>Does fishing calculation stuff!</PackageDescription>
+		<PackageTags>Fishing Bass Calculator Bob</PackageTags>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\fish.png">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+	</ItemGroup>
+
+	<PropertyGroup>
+		<CodeAnalysisRuleSet>..\styles.ruleset</CodeAnalysisRuleSet>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<AdditionalFiles Include="..\stylecop.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+			<PrivateAssets>All</PrivateAssets>
+		</PackageReference>
+	</ItemGroup>
+
+</Project>
