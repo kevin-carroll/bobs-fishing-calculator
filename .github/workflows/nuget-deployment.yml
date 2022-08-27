@@ -13,16 +13,19 @@ on:
         description: "Version Suffix (e.g. 'beta')"
         required: false
         type: string
-
       
 env: 
-  SLN_PATH: ./src/bobs-fishing.sln
+  SLN_PATH: ./src/bobs-fishing.sln  
   DOTNET_CURRENT: 6.0.x
   DOTNET_LTS: 3.1.x
+  BUILD_CONFIG: Release
+  PRIMARY_LIB: ./src/bobs-fishing/bobs-fishing.csproj
+  SECONDARY_LIB: ./src/bobs-fishing-extended/bobs-fishing-extended.csproj
+  OUTPUT_DIR: ./output
 
 jobs:
   build:
-    name:  Build Nuget Packages
+    name:  Build Solution
     runs-on: ubuntu-20.04
 
     steps:
@@ -39,16 +42,27 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_CURRENT }}
 
-      - name: Configure Build
-        run: ./build/configure-ci-build.ps1
-        shell: pwsh
+      # - name: Configure Build
+      #   run: ./build/configure-ci-build.ps1
+      #   shell: pwsh
         
       - name: Nuget Restore
         run: dotnet restore ${{ env.SLN_PATH }}
 
       - name: Build Calculator
-        run: dotnet build ${{ env.SLN_PATH }} --configuration Release --no-restore --verbosity normal
+        run: dotnet build ${{ env.SLN_PATH }} --configuration ${{ env.BUILD_CONFIG }} --no-restore --verbosity normal
 
-      - name: Test Calculator
-        run: dotnet test ${{ env.SLN_PATH }} --no-restore
+      # - name: Test Calculator
+      #   run: dotnet test ${{ env.SLN_PATH }} --configuration ${{ env.BUILD_CONFIG }}  --no-restore --no-build 
+
+      - name: Pack Bobs Calculator
+        run: dotnet pack ${{ env.PRIMARY_LIB }} --configuration ${{ env.BUILD_CONFIG }} --no-restore --include-symbols --output ${{ env.OUTPUT_DIR }} /p:VersionPrefix=${{inputs.version-number}};VersionSuffix=${{inputs.version-suffix}}
+
+      - name: Pack Bobs Calculator Extended
+        run: dotnet pack ${{ env.SECONDARY_LIB }} --configuration ${{ env.BUILD_CONFIG }} --no-restore --include-symbols --output ${{ env.OUTPUT_DIR }} /p:VersionPrefix=${{inputs.version-number}};VersionSuffix=${{inputs.version-suffix}}
+
+      - name: Inspect Outputs
+        run: ./build/inspect-output.ps1
+        shell: pwsh
+
 
