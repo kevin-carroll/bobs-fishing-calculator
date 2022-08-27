@@ -1,3 +1,6 @@
+# This action executes on every commit to any open pull requests
+# to execute unit tests etc.
+
 name: Pull Requests
 on:
   pull_request:

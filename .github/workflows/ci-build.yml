@@ -1,3 +1,6 @@
+# This action executes on every push to master (usually as a result of a PR)
+# to ensure the code base that is actually in master passes all expectations
+
 name: CI Build
 on:
   push:
