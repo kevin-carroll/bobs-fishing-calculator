@@ -5,4 +5,4 @@ A test repo to explore github actions for:
 * Packaging and deployment of the libraries to nuget with proper versioning
 
 
-![Master Branch](https://github.com/kevin-carroll/bobs-fishing-calculator/actions/workflows/pr-ci-build.yml/badge.svg?branch=master)
+![Master Branch](https://github.com/kevin-carroll/bobs-fishing-calculator/actions/workflows/ci-build.yml/badge.svg?branch=master)

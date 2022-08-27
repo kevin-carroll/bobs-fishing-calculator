@@ -1,10 +1,7 @@
-name: Fishing Library
+name: Pull Requests
 on:
   pull_request:
     branches:
-      - master
-  push: 
-    branches: 
       - master
       
 env: 
