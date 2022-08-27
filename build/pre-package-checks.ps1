@@ -6,7 +6,7 @@
 param (
     [String] $versionSuffix,  #e.g. "beta" or ""
     [String] $versionNumber,      #e.g.  "0.5.1"
-    [String] $csProjFiles          # ./bobs-fishing.csproj|./bobs-fishing-extended.csproj
+    [String] $csProjFile          # ./bobs-fishing.csproj
 )
 
 write-host "Executing Preflight checks for Nuget Package deployment"
@@ -35,46 +35,43 @@ write-host  "$versionNumber (Done)." -ForegroundColor Green
 # Validate Published Versions for Conflicts
 # ------------------------------
 # fetch the metadata for the library as it exists on nuget.org right now
-$csProjFilesToCheck = $csProjFiles.Split("|", [System.StringSplitOptions]::None)
-
 $conflictsFound = $false
-foreach ($csProjFile in $csProjFilesToCheck) {
-    $projIdFinder = "$PsScriptRoot\retrievePackageId.ps1"
+$projIdFinder = "$PsScriptRoot\retrievePackageId.ps1"
 
-    [string]$packageToCheck =  & "$projIdFinder" -csProjFile  $csProjFile 
-    if($packageToCheck -eq 1 -or $null -eq $packageToCheck -or "" -eq ($packageToCheck.Trim()) ){
-        return 1
-    }
+[string]$packageToCheck =  & "$projIdFinder" -csProjFile  $csProjFile 
+if($packageToCheck -eq 1 -or $null -eq $packageToCheck -or "" -eq ($packageToCheck.Trim()) ){
+    return 1
+}
 
-    # ensure the version that is being built doesn't already exist on nuget.
-    write-host "Checking Existing Packages for: " -NoNewline
-    write-host $packageToCheck -ForegroundColor DarkCyan
-    
-    $normalizedPackageId = $packageToCheck.ToLower()
-    $url = "https://api.nuget.org/v3/registration5-semver1/$normalizedPackageId/index.json"
-    try {
-        $packageData = Invoke-RestMethod -Uri $url 
-    }
-    catch {
-        write-host "ERROR!" -ForegroundColor Red
-        write-host "Unable to retrieve package details from: $url" -ForegroundColor Red
-        write-host "Either a connection was not established or the package does not exist." -ForegroundColor Red
-        exit 1
-    }
+# ensure the version that is being built doesn't already exist on nuget.
+write-host "Checking Existing Packages for: " -NoNewline
+write-host $packageToCheck -ForegroundColor DarkCyan
 
-    $packageData.items[0].items | ForEach-Object {            
-        $packageContent = Invoke-RestMethod -Uri $_.catalogEntry.'@id'
-        write-host "Inspecting: $($packageContent.version), Published: $($packageContent.created): " -NoNewline
-        if ( $packageContent.version -eq $versionNumber ) {
-            write-host "ERROR!"  -ForegroundColor Red
-            write-host "Package version '$versionNumber' already exists. Unable to redeploy the same version number." -ForegroundColor Red
-            $conflictsFound = $true
-        }
-        else {
-            write-host  " (Done)." -ForegroundColor Green
-        }
+$normalizedPackageId = $packageToCheck.ToLower()
+$url = "https://api.nuget.org/v3/registration5-semver1/$normalizedPackageId/index.json"
+try {
+    $packageData = Invoke-RestMethod -Uri $url 
+}
+catch {
+    write-host "ERROR!" -ForegroundColor Red
+    write-host "Unable to retrieve package details from: $url" -ForegroundColor Red
+    write-host "Either a connection was not established or the package does not exist." -ForegroundColor Red
+    exit 1
+}
+
+$packageData.items[0].items | ForEach-Object {            
+    $packageContent = Invoke-RestMethod -Uri $_.catalogEntry.'@id'
+    write-host "Inspecting  Package: $($packageContent.version), Published: $($packageContent.created): " -NoNewline
+    if ( $packageContent.version -eq $versionNumber ) {
+        write-host "ERROR!"  -ForegroundColor Red
+        write-host "Package version '$versionNumber' already exists. Unable to redeploy the same version number." -ForegroundColor Red
+        $conflictsFound = $true
+    }
+    else {
+        write-host  " (Done)." -ForegroundColor Green
     }
 }
+
 
 if ($conflictsFound){
     exit 1

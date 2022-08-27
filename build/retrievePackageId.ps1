@@ -4,13 +4,11 @@ param(
     [String] $csProjFile 
 )
 
-write-host "Determining PackageId"
-write-host "Inspecting: $csProjFile"
-
+write-host "Determining PackageId: $csProjFile"
 if(!(Test-Path $csProjFile)){
-    write-host 'Unable to Determine Package Id' -ForegroundColor Red
-    write-host 'Missing Project File' -ForegroundColor Red
-    return 1
+    write-host 'ERROR: Unable to Determine Package Id' -ForegroundColor Red
+    write-host 'ERROR: Missing Project File' -ForegroundColor Red
+    exit 1
 }
 
 
@@ -18,18 +16,17 @@ if(!(Test-Path $csProjFile)){
 [string]$packageId = $fileData.Project.PropertyGroup.PackageId
 
 if($null -eq $packageId){
-    write-host 'Unable to Determine Package Id' -ForegroundColor Red
-    write-host "<PackageId> element not found"  -ForegroundColor Red
-    return 1
+    write-host 'ERROR: Unable to Determine Package Id' -ForegroundColor Red
+    write-host "ERROR: <PackageId> element not found"  -ForegroundColor Red
+    exit 1
 }
 
 $packageId = $packageId.Trim()
 if("" -eq $packageId){
-    write-host 'Unable to Determine Package Id' -ForegroundColor Red
-    write-host "<PackageId> element is blank"  -ForegroundColor Red
-    return 1
+    write-host 'ERROR: Unable to Determine Package Id' -ForegroundColor Red
+    write-host "ERROR: <PackageId> element is blank"  -ForegroundColor Red
+    exit 1
 }
 
 write-host "Package Id Found: $packageId" -ForegroundColor Green
-
 return $packageId

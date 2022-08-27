@@ -56,11 +56,11 @@ jobs:
       #   run: dotnet test ${{ env.SLN_PATH }} --configuration ${{ env.BUILD_CONFIG }}  --no-restore --no-build 
 
       - name: Pre Package Inspection (Primary)
-        run: ./build/pre-package-checks.ps1 -versionNumber ${{inputs.version-number}} -versionSuffix ${{inputs.version-suffix}} -csProjFiles "${{env.PRIMARY_LIB}}"
+        run: ./build/pre-package-checks.ps1 -versionNumber ${{inputs.version-number}} -versionSuffix ${{inputs.version-suffix}} -csProjFile "${{env.PRIMARY_LIB}}"
         shell: pwsh
 
       - name: Pre Package Inspection (Extended)
-        run: ./build/pre-package-checks.ps1 -versionNumber ${{inputs.version-number}} -versionSuffix ${{inputs.version-suffix}} -csProjFiles "${{env.SECONDARY_LIB}}"
+        run: ./build/pre-package-checks.ps1 -versionNumber ${{inputs.version-number}} -versionSuffix ${{inputs.version-suffix}} -csProjFile "${{env.SECONDARY_LIB}}"
         shell: pwsh
 
       - name: Pack Bobs Calculator
@@ -68,6 +68,14 @@ jobs:
 
       - name: Pack Bobs Calculator Extended
         run: dotnet pack ${{ env.SECONDARY_LIB }} --configuration ${{ env.BUILD_CONFIG }} --no-restore --include-symbols --output ${{ env.OUTPUT_DIR }} /p:VersionPrefix=${{inputs.version-number}} /p:VersionSuffix=${{inputs.version-suffix}}
+
+      - name: Post Package Inspection (Primary)
+        run: ./build/post-package-checks.ps1 -versionNumber ${{inputs.version-number}} -versionSuffix ${{inputs.version-suffix}} -csProjFile "${{env.PRIMARY_LIB}}"
+        shell: pwsh
+
+      - name: Post Package Inspection (Extended)
+        run: ./build/post-package-checks.ps1 -versionNumber ${{inputs.version-number}} -versionSuffix ${{inputs.version-suffix}} -csProjFile "${{env.SECONDARY_LIB}}"
+        shell: pwsh
 
       # - name: Post Package Inspection
       #   run: ./build/post-package-checks.ps1
