@@ -56,7 +56,7 @@ jobs:
       #   run: dotnet test ${{ env.SLN_PATH }} --configuration ${{ env.BUILD_CONFIG }}  --no-restore --no-build 
 
       - name: Pack Bobs Calculator
-        run: dotnet pack ${{ env.PRIMARY_LIB }} --configuration ${{ env.BUILD_CONFIG }} --no-restore --include-symbols --output ${{ env.OUTPUT_DIR }} /p:VersionPrefix=${{inputs.version-number}};VersionSuffix="${{inputs.version-suffix}}""
+        run: dotnet pack ${{ env.PRIMARY_LIB }} --configuration ${{ env.BUILD_CONFIG }} --no-restore --include-symbols --output ${{ env.OUTPUT_DIR }} /p:VersionPrefix=${{inputs.version-number}};VersionSuffix="${{inputs.version-suffix}}"
 
       - name: Pack Bobs Calculator Extended
         run: dotnet pack ${{ env.SECONDARY_LIB }} --configuration ${{ env.BUILD_CONFIG }} --no-restore --include-symbols --output ${{ env.OUTPUT_DIR }} /p:VersionPrefix=${{inputs.version-number}};VersionSuffix=${{inputs.version-suffix}}
