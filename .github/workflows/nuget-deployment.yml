@@ -2,7 +2,18 @@
 # to ensure the code base that is actually in master passes all expectations
 
 name: Nuget Deployment
-on: workflow_dispatch
+on: 
+  workflow_dispatch:
+    inputs: 
+      version-number:
+        description: "Version Number (e.g. 1.2.3)"
+        required: true
+        type: string
+      version-suffix:
+        description: "Version Suffix (e.g. 'beta')"
+        required: false
+        type: string
+      
       
 env: 
   SLN_PATH: ./src/bobs-fishing.sln
