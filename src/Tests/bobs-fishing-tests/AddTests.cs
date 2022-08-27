@@ -10,7 +10,7 @@ namespace BobsFishing.Calculator.Tests
     public class Tests
     {
         [TestCase(4, 2, 6)]
-        [TestCase(5, 1, 7)]
+        [TestCase(5, 1, 6)]
         [TestCase(5, -1, 4)]
         public void Add(int a, int b, int expectedResult)
         {
