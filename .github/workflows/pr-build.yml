@@ -5,10 +5,12 @@ on:
       - master
 env: 
   SLN_PATH: ./src/bobs-fishing.sln
-  DOTNET_VERSION: 6.0.x
+  DOTNET_CURRENT: 6.0.x
+  DOTNET_LTS: 3.1.x
 
 jobs:
   build:
+    name:  PR Sanity Build
     runs-on: ubuntu-20.04
 
     steps:
@@ -16,9 +18,14 @@ jobs:
         name: Checkout Code
       
       - uses: actions/setup-dotnet@v2
-        name: Install .NET
+        name: Install .NET (${{ env.DOTNET_CURRENT }})
         with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
+          dotnet-version: ${{ env.DOTNET_CURRENT }}
+      
+      - uses: actions/setup-dotnet@v2
+        name: Install .NET (${{ env.DOTNET_LTS }})
+        with:
+          dotnet-version: ${{ env.DOTNET_LTS }}
 
       - name: Install dependencies
         run: dotnet restore ${{ env.SLN_PATH }}
@@ -27,4 +34,4 @@ jobs:
         run: dotnet build ${{ env.SLN_PATH }} --configuration Release --no-restore
 
       - name: Test Calculator
-        run: dotnet test ${{ env.SLN_PATH }} --no-restore --verbosity normal            
+        run: dotnet test ${{ env.SLN_PATH }} --no-restore --verbosity normal
