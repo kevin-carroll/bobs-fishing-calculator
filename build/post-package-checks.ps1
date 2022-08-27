@@ -51,7 +51,7 @@ write-host $packageToCheck -ForegroundColor DarkCyan
 $fileName = "$packageToCheck.$versionNumber.nupkg"
 write-host "Searching Artifact Directory: $artifactDirectory"
 write-host "Checking for expected artifact: $fileName ..." -NoNewline
-$matchedFiles = get-childitem "$artifactDirectory" -Include $fileName | Select-Object -Expand FullName
+$matchedFiles = get-childitem "$artifactDirectory" $fileName | Select-Object -Expand FullName
 if ($null -eq $matchedFiles) {
     write-host "(ERROR!)" -ForegroundColor Red
     write-host "ERROR: Expected File Not Found. Build Terminated." -ForegroundColor Red
