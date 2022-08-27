@@ -5,14 +5,11 @@ on:
       - master
 env: 
   SLN_PATH: ./src/bobs-fishing.sln
-
+  DOTNET_VERSION: 6.0.x
 
 jobs:
   build:
     runs-on: ubuntu-20.04
-    strategy:
-      matrix:
-        dotnet-version: ['3.1.x', '6.0.x' ]
 
     steps:
       - uses: actions/checkout@v3
@@ -21,7 +18,7 @@ jobs:
       - uses: actions/setup-dotnet@v2
         name: Install .NET
         with:
-          dotnet-version: ${{ matrix.dotnet-version }}
+          dotnet-version: ${{ DOTNET_VERSION }}
 
       - name: Install dependencies
         run: dotnet restore ${{ env.SLN_PATH }}
