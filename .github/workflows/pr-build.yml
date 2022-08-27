@@ -1,4 +1,4 @@
-name: Fishing Library PR
+name: Fishing Library
 on:
   pull_request:
     branches:
@@ -10,7 +10,7 @@ env:
 
 jobs:
   build:
-    name:  PR Sanity Build
+    name:  PR Build
     runs-on: ubuntu-20.04
 
     steps:
