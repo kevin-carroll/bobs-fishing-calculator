@@ -3,6 +3,10 @@ on:
   pull_request:
     branches:
       - master
+  push: 
+    branches: 
+      - master
+      
 env: 
   SLN_PATH: ./src/bobs-fishing.sln
   DOTNET_CURRENT: 6.0.x
