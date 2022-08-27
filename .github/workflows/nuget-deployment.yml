@@ -74,7 +74,7 @@ jobs:
         shell: pwsh
 
       - name: Post Package Inspection (Extended)
-        run: ./build/post-package-checks.ps1 -versionNumber ${{inputs.version-number}} -versionSuffix ${{inputs.version-suffix}} -csProjFile "${{env.SECONDARY_LIB}}"
+        run: ./build/post-package-checks.ps1 -versionNumber ${{inputs.version-number}} -versionSuffix ${{inputs.version-suffix}} -csProjFile "${{env.SECONDARY_LIB}}" 
         shell: pwsh
 
       # - name: Post Package Inspection
