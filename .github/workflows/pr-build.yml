@@ -27,15 +27,15 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_CURRENT }}
 
-      - name: Install dependencies
-        run: dotnet restore ${{ env.SLN_PATH }}
-
       - name: Configure Build
         run: ./build/configure-ci-build.ps1
         shell: pwsh
+        
+      - name: Nuget Restore
+        run: dotnet restore ${{ env.SLN_PATH }}
 
       - name: Build Calculator
-        run: dotnet build ${{ env.SLN_PATH }} --configuration Release --no-restore
+        run: dotnet build ${{ env.SLN_PATH }} --configuration Release --no-restore --verbosity normal
 
       - name: Test Calculator
-        run: dotnet test ${{ env.SLN_PATH }} --no-restore --verbosity normal
+        run: dotnet test ${{ env.SLN_PATH }} --no-restore

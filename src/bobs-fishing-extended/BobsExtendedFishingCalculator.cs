@@ -6,6 +6,9 @@ namespace BobsFishing.Calculator.Extended
 {
     using BobsFishing.Calculator;
 
+    /// <summary>
+    /// Bobs extended fishing calculator, now with more calculator!.
+    /// </summary>
     public class BobsExtendedFishingCalculator : BobsFishingCalculator
     {
         /// <summary>
