@@ -70,11 +70,11 @@ jobs:
         run: dotnet pack ${{ env.SECONDARY_LIB }} --configuration ${{ env.BUILD_CONFIG }} --no-restore --include-symbols --output ${{ env.OUTPUT_DIR }} /p:VersionPrefix=${{inputs.version-number}} /p:VersionSuffix=${{inputs.version-suffix}}
 
       - name: Post Package Inspection (Primary)
-        run: ./build/post-package-checks.ps1 -versionNumber ${{inputs.version-number}} -versionSuffix ${{inputs.version-suffix}} -csProjFile "${{env.PRIMARY_LIB}}"
+        run: ./build/post-package-checks.ps1 -versionNumber ${{inputs.version-number}} -versionSuffix ${{inputs.version-suffix}} -csProjFile "${{env.PRIMARY_LIB}}" -artifactDirectory ${{env.OUTPUT_DIR}}
         shell: pwsh
 
       - name: Post Package Inspection (Extended)
-        run: ./build/post-package-checks.ps1 -versionNumber ${{inputs.version-number}} -versionSuffix ${{inputs.version-suffix}} -csProjFile "${{env.SECONDARY_LIB}}" 
+        run: ./build/post-package-checks.ps1 -versionNumber ${{inputs.version-number}} -versionSuffix ${{inputs.version-suffix}} -csProjFile "${{env.SECONDARY_LIB}}" -artifactDirectory ${{env.OUTPUT_DIR}}
         shell: pwsh
 
       # - name: Post Package Inspection
