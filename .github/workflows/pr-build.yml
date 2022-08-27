@@ -18,14 +18,14 @@ jobs:
         name: Checkout Code
       
       - uses: actions/setup-dotnet@v2
-        name: Install .NET (${{ env.DOTNET_CURRENT }})
-        with:
-          dotnet-version: ${{ env.DOTNET_CURRENT }}
-      
-      - uses: actions/setup-dotnet@v2
         name: Install .NET (${{ env.DOTNET_LTS }})
         with:
           dotnet-version: ${{ env.DOTNET_LTS }}
+
+      - uses: actions/setup-dotnet@v2
+        name: Install .NET (${{ env.DOTNET_CURRENT }})
+        with:
+          dotnet-version: ${{ env.DOTNET_CURRENT }}
 
       - name: Install dependencies
         run: dotnet restore ${{ env.SLN_PATH }}
