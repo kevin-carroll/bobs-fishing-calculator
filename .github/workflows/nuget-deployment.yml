@@ -29,15 +29,16 @@ jobs:
     runs-on: ubuntu-20.04
 
     steps:
-      - name: Checkout Code- 
-        uses: actions/checkout@v3        
-
-      - name: Install .NET
+      - uses: actions/checkout@v3
+        name: Checkout Code
+      
       - uses: actions/setup-dotnet@v2
+        name: Install .NET (${{ env.DOTNET_LTS }})
         with:
           dotnet-version: ${{ env.DOTNET_LTS }}
 
-        uses: actions/setup-dotnet@v2
+      - uses: actions/setup-dotnet@v2
+        name: Install .NET (${{ env.DOTNET_CURRENT }})
         with:
           dotnet-version: ${{ env.DOTNET_CURRENT }}
 
@@ -54,24 +55,25 @@ jobs:
       # - name: Test Calculator
       #   run: dotnet test ${{ env.SLN_PATH }} --configuration ${{ env.BUILD_CONFIG }}  --no-restore --no-build 
 
-      - name: Pre Package Inspection
-
+      - name: Pre Package Inspection (Primary)
         run: ./build/pre-package-checks.ps1 -versionNumber ${{inputs.version-number}} -versionSuffix ${{inputs.version-suffix}} -csProjFile "${{env.PRIMARY_LIB}}"
         shell: pwsh
 
+      - name: Pre Package Inspection (Extended)
         run: ./build/pre-package-checks.ps1 -versionNumber ${{inputs.version-number}} -versionSuffix ${{inputs.version-suffix}} -csProjFile "${{env.SECONDARY_LIB}}"
         shell: pwsh
 
-      - name: Pack Libraries
-      
-        run: dotnet pack ${{ env.PRIMARY_LIB }} --configuration ${{ env.BUILD_CONFIG }} --no-restore --include-symbols --output ${{ env.OUTPUT_DIR }} /p:VersionPrefix=${{inputs.version-number}} /p:VersionSuffix="${{inputs.version-suffix}}"      
+      - name: Pack Bobs Calculator
+        run: dotnet pack ${{ env.PRIMARY_LIB }} --configuration ${{ env.BUILD_CONFIG }} --no-restore --include-symbols --output ${{ env.OUTPUT_DIR }} /p:VersionPrefix=${{inputs.version-number}} /p:VersionSuffix="${{inputs.version-suffix}}"
+
+      - name: Pack Bobs Calculator (Extended)
         run: dotnet pack ${{ env.SECONDARY_LIB }} --configuration ${{ env.BUILD_CONFIG }} --no-restore --include-symbols --output ${{ env.OUTPUT_DIR }} /p:VersionPrefix=${{inputs.version-number}} /p:VersionSuffix=${{inputs.version-suffix}}
 
       - name: Post Package Inspection 
-
         run: ./build/post-package-checks.ps1 -versionNumber ${{inputs.version-number}} -versionSuffix ${{inputs.version-suffix}} -csProjFile "${{env.PRIMARY_LIB}}" -artifactDirectory ${{env.OUTPUT_DIR}}
         shell: pwsh
 
+      - name: Post Package Inspection (Extended)
         run: ./build/post-package-checks.ps1 -versionNumber ${{inputs.version-number}} -versionSuffix ${{inputs.version-suffix}} -csProjFile "${{env.SECONDARY_LIB}}" -artifactDirectory ${{env.OUTPUT_DIR}}
         shell: pwsh
 
