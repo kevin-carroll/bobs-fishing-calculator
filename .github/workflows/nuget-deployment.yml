@@ -80,7 +80,7 @@ jobs:
         shell: pwsh
 
       - name: Publish To Nuget 
-        run: dotnet nuget push "${{env.OUTPUT_DIR}}/*.nupkg" -Source 'https://api.uget.org/v3/index.json' --api-key ${{secrets.NUGET_KEY}}
+        run: dotnet nuget push "${{env.OUTPUT_DIR}}/*.nupkg" -Source 'https://api.nuget.org/v3/index.json' --api-key ${{secrets.NUGET_KEY}}
 
       # - name: Post Package Inspection
       #   run: ./build/post-package-checks.ps1
