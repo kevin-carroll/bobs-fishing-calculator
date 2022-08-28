@@ -5,4 +5,4 @@ A test repo to explore github actions for:
 * Packaging and deployment of the libraries to nuget with proper versioning
 
 
-## This is the readme file from the build folder
+## This is a nuget readme!
