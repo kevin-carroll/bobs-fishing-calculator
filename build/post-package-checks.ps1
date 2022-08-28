@@ -1,19 +1,16 @@
-# This script is executed BEFORE a package is created 
-# and before its published to nuget.
-#
-# This script performs some checks to ensure the package can be successfully built 
-# and configured correctly
+# This script is executed AFTER a package is created. It performs some  
+# checks to ensure the package was correctly built according to the expected parameters.
+
 param (
-    [String] $versionSuffix,  #e.g. "beta" or ""
-    [String] $versionNumber,      #e.g.  "0.5.1"
-    [String] $csProjFile,          # bobs-fishing.csproj
-    [String] $artifactDirectory   # ./output
+    [String] $versionNumber,      #  "0.5.1"
+    [String] $versionSuffix,      #  "beta" or ""
+    [String] $csProjFile,         #  bobs-fishing.csproj
+    [String] $outputDirectory   # ./output
 )
 
 # ------------------------------
 # Validate the Version Number
 # -------------------------------
-# when version number validation fails fail the release
 write-host "Validating Version Number: " -NoNewline
 if ( ($versionNumber -eq "") -or ($null -eq $versionNumber)) {
     write-host "(ERROR!)." -ForegroundColor Red
@@ -31,27 +28,24 @@ if ( ($versionSuffix -ne "") -and ($null -ne $versionSuffix) ) {
 write-host  "$versionNumber (Done)." -ForegroundColor Green
 
 # ------------------------------
-# Validate Published Versions for Conflicts
+# Check that the package was created with the correct version number
 # ------------------------------
-# Check each created package to ensure that the actual file matches the expected version number
 
+# deteremine the package id
 $projIdFinder = "$PsScriptRoot\retrievePackageId.ps1"
 [string]$packageToCheck =  & "$projIdFinder" -csProjFile  $csProjFile 
 if($packageToCheck -eq 1 -or $null -eq $packageToCheck -or "" -eq ($packageToCheck.Trim()) ){
     exit 1
 }
 
-# ensure the version that is being built doesn't already exist on nuget.
 write-host "Processing Package Id: " -NoNewline
 write-host $packageToCheck -ForegroundColor DarkCyan
 
-# ------------------------------
-# Check that a nuget file of the correct name exists
-# -------------------------------
+# check the output folder for a package matching the version number
 $fileName = "$packageToCheck.$versionNumber.nupkg"
-write-host "Searching Artifact Directory: $artifactDirectory"
+write-host "Searching Artifact Directory: $outputDirectory"
 write-host "Checking for expected artifact: $fileName ..." -NoNewline
-$matchedFiles = get-childitem "$artifactDirectory" $fileName | Select-Object -Expand FullName
+$matchedFiles = get-childitem "$outputDirectory" $fileName | Select-Object -Expand FullName
 if ($null -eq $matchedFiles) {
     write-host "(ERROR!)" -ForegroundColor Red
     write-host "ERROR: Expected File Not Found. Build Terminated." -ForegroundColor Red
