@@ -70,14 +70,14 @@ jobs:
       # ---------------------------------------
       - name: Pre-Package Inspection
         run: | 
-          ./build/pre-package-checks.ps1 -csProjFile "${{env.PRIMARY_LIB_PATH}}"       -versionNumber ${{inputs.version-number}} -versionSuffix "${{inputs.version-suffix}}"" 
+          ./build/pre-package-checks.ps1 -csProjFile "${{env.PRIMARY_LIB_PATH}}"       -versionNumber ${{inputs.version-number}} -versionSuffix "${{inputs.version-suffix}}" 
           ./build/pre-package-checks.ps1 -csProjFile "${{env.SUBSCRIPTIONS_LIB_PATH}}" -versionNumber ${{inputs.version-number}} -versionSuffix "${{inputs.version-suffix}}"
         shell: pwsh
 
       - name: Package Contents
         run: |
           dotnet pack "${{env.PRIMARY_LIB_PATH}}"       --configuration ${{env.BUILD_CONFIG}} --no-restore --include-symbols --output ${{env.OUTPUT_DIR}} /p:VersionPrefix=${{inputs.version-number}} /p:VersionSuffix="${{inputs.version-suffix}}"
-          dotnet pack "${{env.SUBSCRIPTIONS_LIB_PATH}}" --configuration ${{env.BUILD_CONFIG}} --no-restore --include-symbols --output ${{env.OUTPUT_DIR}} /p:VersionPrefix=${{inputs.version-number}} /p:VersionSuffix="${{inputs.version-suffix}}""
+          dotnet pack "${{env.SUBSCRIPTIONS_LIB_PATH}}" --configuration ${{env.BUILD_CONFIG}} --no-restore --include-symbols --output ${{env.OUTPUT_DIR}} /p:VersionPrefix=${{inputs.version-number}} /p:VersionSuffix="${{inputs.version-suffix}}"
 
       # ---------------------------------------        
       # Save Artifacts for later debugging
