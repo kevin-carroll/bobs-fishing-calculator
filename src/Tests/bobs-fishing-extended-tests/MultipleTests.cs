@@ -15,7 +15,7 @@ namespace BobsFishing.Calculator.Extended.Tests
         {
             var entity = new BobsExtendedFishingCalculator();
 
-            Assert.AreEqual(expectedResult, entity.Multiple(a, b));
+            Assert.AreEqual(expectedResult, entity.Multiply(a, b));
         }
     }
 }
