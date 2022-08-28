@@ -4,9 +4,9 @@
 # This script performs some checks to ensure the package can be successfully built 
 # and configured correctly
 param (
-    [String] $versionSuffix,  #e.g. "beta" or ""
-    [String] $versionNumber,      #e.g.  "0.5.1"
-    [String] $csProjFile          # ./bobs-fishing.csproj
+    [String] $versionNumber,    #e.g.  "0.5.1"    
+    [String] $versionSuffix,    #e.g. "beta" or ""    
+    [String] $csProjFile        # ./bobs-fishing.csproj
 )
 
 write-host "Executing Preflight checks for Nuget Package deployment"
@@ -34,18 +34,18 @@ write-host  "$versionNumber (Done)." -ForegroundColor Green
 # ------------------------------
 # Validate Published Versions for Conflicts
 # ------------------------------
-# fetch the metadata for the library as it exists on nuget.org right now
-$projIdFinder = "$PsScriptRoot\retrievePackageId.ps1"
 
+# figure out what the full package id would be
+$projIdFinder = "$PsScriptRoot\retrievePackageId.ps1"
 [string]$packageToCheck =  & "$projIdFinder" -csProjFile  $csProjFile 
 if($packageToCheck -eq 1 -or $null -eq $packageToCheck -or "" -eq ($packageToCheck.Trim()) ){
     return 1
 }
 
-# ensure the version that is being built doesn't already exist on nuget.
 write-host "Checking Existing Packages for: " -NoNewline
 write-host $packageToCheck -ForegroundColor DarkCyan
 
+# fetch the metadata for the library as it exists on nuget.org right now
 $normalizedPackageId = $packageToCheck.ToLower()
 $url = "https://api.nuget.org/v3/registration5-semver1/$normalizedPackageId/index.json"
 try {
@@ -58,6 +58,8 @@ catch {
     exit 1
 }
 
+# Inspect all existing package names and ensure the version 
+# that is being built doesn't already exist on nuget.
 $packageData.items[0].items | ForEach-Object {            
     $packageContent = Invoke-RestMethod -Uri $_.catalogEntry.'@id'
     write-host "Inspecting  Package: $($packageContent.version), Published: $($packageContent.created): " -NoNewline

@@ -1,7 +1,8 @@
 # Inspects the XML of any CS project file 
 # and returns the first found instance of <PackageId>
+
 param(
-    [String] $csProjFile 
+    [String] $csProjFile   # './src/folder/some-file.csproj'
 )
 
 write-host "Determining PackageId: $csProjFile"

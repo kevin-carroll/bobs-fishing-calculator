@@ -1,18 +1,21 @@
 
-# Copy the strict linting file in place of the regular one
-# this will enforce build errors on any applicable warnings during development
+# Configures the folder to execute a CI build
+
+
+# copy in the strict linting rules to force any 
+# build warnings to actual errors
 $strictLintPath = "./build/strict-linting.ruleset"
 $developerLintPath = "./src/styles.ruleset"
 
 Write-Host "Configuring Environment for CI Build" -ForegroundColor Yellow
 
 if(-Not (Test-path $developerLintPath)){
-    Write-Host "Invalid Path. Unable to locate $developerLintPath" -ForegroundColor Red
+    Write-Host "Invalid Lint Rule Path. Unable to locate $developerLintPath" -ForegroundColor Red
     exit 1
 }
 
 if(-Not (Test-path $strictLintPath)){
-    Write-Host "Invalid Path. Unable to locate $strictLintPath"  -ForegroundColor Red
+    Write-Host "Invalid Lint Rule Path. Unable to locate $strictLintPath"  -ForegroundColor Red
     exit 1
 }
 
