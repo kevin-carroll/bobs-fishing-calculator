@@ -11,6 +11,7 @@ namespace BobsFishing.Calculator.Extended.Tests
     {
         [TestCase(4, 2, 0)]
         [TestCase(10, 6, 4)]
+        [TestCase(20, 19, 1)]
         public void Modulu(int a, int b, int expectedResult)
         {
             var entity = new BobsExtendedFishingCalculator();
