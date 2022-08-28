@@ -82,9 +82,10 @@ jobs:
       # ---------------------------------------        
       # Save Artifacts for later debugging
       # ---------------------------------------
-      - uses: actions/upload-artifact@v3
+      -name: Save Artifacts
+       uses: actions/upload-artifact@v3
         with:
-          name: Save Artifacts
+          name: generated-nuget-packages
           path: ${{env.OUTPUT_DIR}}/*
 
       # ---------------------------------------        
