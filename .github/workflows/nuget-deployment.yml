@@ -26,8 +26,6 @@ env:
 jobs:
   deployment:
     name:  Pack & Deploy    
-    environment: 
-      name: general
     runs-on: ubuntu-20.04
 
     steps:
@@ -51,24 +49,24 @@ jobs:
       - name: Nuget Restore
         run: dotnet restore ${{ env.SLN_PATH }}
 
-      - name: Build Calculator
+      - name: Build Solution
         run: dotnet build ${{ env.SLN_PATH }} --configuration ${{ env.BUILD_CONFIG }} --no-restore --verbosity normal
 
-      - name: Test Calculator
+      - name: Test Solution
         run: dotnet test ${{ env.SLN_PATH }} --configuration ${{ env.BUILD_CONFIG }}  --no-restore --no-build 
 
-      - name: Pre Package Inspection (Primary)
+      - name: Pre-Package Inspection
         run: | 
           ./build/pre-package-checks.ps1 -versionNumber ${{inputs.version-number}} -versionSuffix ${{inputs.version-suffix}} -csProjFile "${{env.PRIMARY_LIB}}"
           ./build/pre-package-checks.ps1 -versionNumber ${{inputs.version-number}} -versionSuffix ${{inputs.version-suffix}} -csProjFile "${{env.SECONDARY_LIB}}"
         shell: pwsh
 
-      - name: Pack Bobs Calculator
+      - name: Package Contents
         run: |
           dotnet pack ${{ env.PRIMARY_LIB }} --configuration ${{ env.BUILD_CONFIG }} --no-restore --include-symbols --output ${{ env.OUTPUT_DIR }} /p:VersionPrefix=${{inputs.version-number}} /p:VersionSuffix="${{inputs.version-suffix}}"
           dotnet pack ${{ env.SECONDARY_LIB }} --configuration ${{ env.BUILD_CONFIG }} --no-restore --include-symbols --output ${{ env.OUTPUT_DIR }} /p:VersionPrefix=${{inputs.version-number}} /p:VersionSuffix=${{inputs.version-suffix}}
       
-      - name: Post Package Inspection 
+      - name: Post-Package Inspection 
         run: |
           ./build/post-package-checks.ps1 -versionNumber ${{inputs.version-number}} -versionSuffix ${{inputs.version-suffix}} -csProjFile "${{env.PRIMARY_LIB}}" -artifactDirectory ${{env.OUTPUT_DIR}}
           ./build/post-package-checks.ps1 -versionNumber ${{inputs.version-number}} -versionSuffix ${{inputs.version-suffix}} -csProjFile "${{env.SECONDARY_LIB}}" -artifactDirectory ${{env.OUTPUT_DIR}}
