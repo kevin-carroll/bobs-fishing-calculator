@@ -32,5 +32,16 @@ namespace BobsFishing.Calculator.Extended
         {
             return a * b;
         }
+
+        /// <summary>
+        /// Performs a modulus.
+        /// </summary>
+        /// <param name="a">the first number.</param>
+        /// <param name="b">The number to mode by.</param>
+        /// <returns>System.Int32.</returns>
+        public int Modulo(int a, int b)
+        {
+            return a % b;
+        }
     }
 }
