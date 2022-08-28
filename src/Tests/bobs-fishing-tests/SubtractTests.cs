@@ -7,17 +7,18 @@ namespace BobsFishing.Calculator.Tests
     using BobsFishing.Calculator;
     using NUnit.Framework;
 
-    public class AddTests
+    public class SubtractTests
     {
-        [TestCase(4, 2, 6)]
-        [TestCase(5, 1, 6)]
-        [TestCase(9, 3, 12)]
-        [TestCase(5, -1, 4)]
-        public void Add(int a, int b, int expectedResult)
+        [TestCase(4, 2, 2)]
+        [TestCase(5, 1, 4)]
+        [TestCase(9, 3, 6)]
+        [TestCase(5, -1, 6)]
+        [TestCase(19, 19, 0)]
+        public void Subtract(int a, int b, int expectedResult)
         {
             var entity = new BobsFishingCalculator();
 
-            Assert.AreEqual(expectedResult, entity.Add(a, b));
+            Assert.AreEqual(expectedResult, entity.Subtract(a, b));
         }
     }
 }

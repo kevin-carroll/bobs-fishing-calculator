@@ -43,7 +43,7 @@ jobs:
         run: dotnet restore ${{ env.SLN_PATH }}
 
       - name: Build Solution
-        run: dotnet build ${{ env.SLN_PATH }} --configuration Release --no-restore --verbosity normal
+        run: dotnet build ${{ env.SLN_PATH }} --configuration Release --no-restore
 
       - name: Test Solution
         run: dotnet test ${{ env.SLN_PATH }} --no-restore

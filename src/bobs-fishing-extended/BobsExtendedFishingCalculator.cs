@@ -21,5 +21,16 @@ namespace BobsFishing.Calculator.Extended
         {
             return a / b;
         }
+
+        /// <summary>
+        /// Multiples two numbers together.
+        /// </summary>
+        /// <param name="a">the first number.</param>
+        /// <param name="b">The second number.</param>
+        /// <returns>System.Int32.</returns>
+        public int Multiple(int a, int b)
+        {
+            return a * b;
+        }
     }
 }
