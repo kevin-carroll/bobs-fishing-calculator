@@ -10,7 +10,7 @@ namespace BobsFishing.Calculator.Extended.Tests
     public class DivideTests
     {
         [TestCase(4, 2, 2)]
-        [TestCase(5, 1, 1)]
+        [TestCase(5, 1, 5)]
         public void Divide(int a, int b, int expectedResult)
         {
             var entity = new BobsExtendedFishingCalculator();
