@@ -24,8 +24,10 @@ env:
   OUTPUT_DIR: ./output
 
 jobs:
-  build:
-    name:  Pack & Deploy
+  deployment:
+    name:  Pack & Deploy    
+    environment: 
+      name: general
     runs-on: ubuntu-20.04
 
     steps:
@@ -76,6 +78,9 @@ jobs:
       - name: Post Package Inspection (Extended)
         run: ./build/post-package-checks.ps1 -versionNumber ${{inputs.version-number}} -versionSuffix ${{inputs.version-suffix}} -csProjFile "${{env.SECONDARY_LIB}}" -artifactDirectory ${{env.OUTPUT_DIR}}
         shell: pwsh
+
+      - name: Publish To Nuget 
+        run: nuget push "${{env.OUTPUT_DIR}}/*.nupkg" -Source 'https://api.uget.org/vs3/index.json' -apiKey ${{secrets.NUGET_KEY}}
 
       # - name: Post Package Inspection
       #   run: ./build/post-package-checks.ps1
