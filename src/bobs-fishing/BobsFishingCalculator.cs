@@ -20,6 +20,12 @@ namespace BobsFishing.Calculator
             return a + b;
         }
 
+        /// <summary>
+        /// Subtracts two numbers.
+        /// </summary>
+        /// <param name="a">The first Number.</param>
+        /// <param name="b">The second number.</param>
+        /// <returns>System.Int32.</returns>
         public int Subtract(int a, int b)
         {
             return a - b;
