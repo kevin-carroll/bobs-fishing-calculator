@@ -35,7 +35,6 @@ write-host  "$versionNumber (Done)." -ForegroundColor Green
 # Validate Published Versions for Conflicts
 # ------------------------------
 # fetch the metadata for the library as it exists on nuget.org right now
-$conflictsFound = $false
 $projIdFinder = "$PsScriptRoot\retrievePackageId.ps1"
 
 [string]$packageToCheck =  & "$projIdFinder" -csProjFile  $csProjFile 
@@ -65,17 +64,13 @@ $packageData.items[0].items | ForEach-Object {
     if ( $packageContent.version -eq $versionNumber ) {
         write-host "ERROR!"  -ForegroundColor Red
         write-host "Package version '$versionNumber' already exists. Unable to redeploy the same version number." -ForegroundColor Red
-        $conflictsFound = $true
+        exit 1
     }
     else {
         write-host  " (Done)." -ForegroundColor Green
     }
 }
 
-
-if ($conflictsFound){
-    exit 1
-}
-
 write-host "No Conflicts Found"
 write-host "Pre-flight Validation Complete" -ForegroundColor Green
+exit 0

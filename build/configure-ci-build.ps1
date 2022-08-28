@@ -8,12 +8,12 @@ Write-Host "Configuring Environment for CI Build" -ForegroundColor Yellow
 
 if(-Not (Test-path $developerLintPath)){
     Write-Host "Invalid Path. Unable to locate $developerLintPath" -ForegroundColor Red
-    return 1
+    exit 1
 }
 
 if(-Not (Test-path $strictLintPath)){
     Write-Host "Invalid Path. Unable to locate $strictLintPath"  -ForegroundColor Red
-    return 1
+    exit 1
 }
 
 Write-Host "Enforcing Strict Linting (Stylecop)..."
@@ -21,3 +21,4 @@ Remove-Item $developerLintPath
 Copy-Item  $strictLintPath -Destination $developerLintPath
 
 Write-Host "CI Build Configuration Complete" -ForegroundColor Green
+exit 0

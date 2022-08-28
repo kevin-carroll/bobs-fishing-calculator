@@ -60,3 +60,4 @@ if ($null -eq $matchedFiles) {
 write-host " (Done)" -ForegroundColor Green
 
 write-host "Post-Package Validation Complete" -ForegroundColor Green
+exit 0
