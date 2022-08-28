@@ -22,6 +22,7 @@ env:
   PRIMARY_LIB: ./src/bobs-fishing/bobs-fishing.csproj
   SECONDARY_LIB: ./src/bobs-fishing-extended/bobs-fishing-extended.csproj
   OUTPUT_DIR: ./output
+  NUGET_KEY: ${{ secrets.NUGET_KEY }}
 
 jobs:
   deployment:
@@ -73,7 +74,7 @@ jobs:
         shell: pwsh
 
       - name: Publish To Nuget 
-        run: dotnet nuget push "${{env.OUTPUT_DIR}}/*.nupkg" --source 'https://api.nuget.org/v3/index.json' --api-key ${{secrets.NUGET_KEY}}
+        run: dotnet nuget push "${{env.OUTPUT_DIR}}/*.nupkg" --source 'https://api.nuget.org/v3/index.json' --api-key "${{env.NUGET_KEY}}"
 
       # - name: Post Package Inspection
       #   run: ./build/post-package-checks.ps1
