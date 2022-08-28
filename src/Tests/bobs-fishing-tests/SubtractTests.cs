@@ -13,6 +13,7 @@ namespace BobsFishing.Calculator.Tests
         [TestCase(5, 1, 4)]
         [TestCase(9, 3, 6)]
         [TestCase(5, -1, 6)]
+        [TestCase(19, 19, 0)]
         public void Subtract(int a, int b, int expectedResult)
         {
             var entity = new BobsFishingCalculator();
