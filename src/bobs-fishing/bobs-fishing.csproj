@@ -6,6 +6,7 @@
 		<NoWarn>$(NoWarn);1701;1702;1705;1591;NU1603;IDE0019;IDE0017;RCS1146;RCS1194;</NoWarn>
 		<RootNamespace>BobsFishing.Calculator</RootNamespace>
 		<AssemblyName>BobsFishing.Calculator</AssemblyName>
+		<AssemblyVersion>1.0.0.0</AssemblyVersion>
 		<Company>Bob's Fishing</Company>
 		<Title>Bobs Fishing Calculator</Title>
 		<Product>Bobs Fishing Calculator</Product>
@@ -25,11 +26,16 @@
 
 	<ItemGroup>
 		<None Include="..\fish.png" Pack="true" PackagePath="\" />
-		<None Include="..\..\build\nuget-package-readme.md" Pack="true" PackagePath="\README.md"/>
+		<None Include="..\..\build\nuget-package-readme.md" Pack="true" PackagePath="\README.md" />
 	</ItemGroup>
 
 	<PropertyGroup>
 		<CodeAnalysisRuleSet>..\styles.ruleset</CodeAnalysisRuleSet>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
+		<SignAssembly>True</SignAssembly>
+		<AssemblyOriginatorKeyFile>..\..\build\bobs-fishing.snk</AssemblyOriginatorKeyFile>
 	</PropertyGroup>
 
 	<ItemGroup>

@@ -2,9 +2,9 @@
 # to ensure the code base that is actually in master passes all expectations
 
 name: Nuget Deployment
-on: 
+on:
   workflow_dispatch:
-    inputs: 
+    inputs:
       version-number:
         description: "Version Number (e.g. 1.2.3)"
         required: true
@@ -13,11 +13,9 @@ on:
         description: "Version Suffix (e.g. 'beta')"
         required: false
         type: string
-      
-env: 
-  DOTNET_CURRENT: 6.x
-  DOTNET_LTS: 3.1.x
-  SLN_PATH: ./src/bobs-fishing.sln  
+
+env:
+  SLN_PATH: ./src/bobs-fishing.sln
   PRIMARY_LIB_PATH: ./src/bobs-fishing/bobs-fishing.csproj
   SUBSCRIPTIONS_LIB_PATH: ./src/bobs-fishing-extended/bobs-fishing-extended.csproj
   BUILD_CONFIG: Release
@@ -26,25 +24,23 @@ env:
 
 jobs:
   deployment:
-    name:  Pack & Deploy    
+    name:  Pack & Deploy
     runs-on: ubuntu-20.04
 
     steps:
       - uses: actions/checkout@v3
         name: Checkout Code
-      
+
       # ---------------------------------------
       # Install .NET Versions
       # ---------------------------------------
       - uses: actions/setup-dotnet@v2
-        name: Install .NET (${{env.DOTNET_LTS}})
+        name: Install .NET
         with:
-          dotnet-version: ${{env.DOTNET_LTS}}
-
-      - uses: actions/setup-dotnet@v2
-        name: Install .NET (${{env.DOTNET_CURRENT}})
-        with:
-          dotnet-version: ${{env.DOTNET_CURRENT}}
+          dotnet-version: |
+            3.1.x
+            6.x
+            7.x
 
       # ---------------------------------------
       # Configure the build environment
@@ -52,8 +48,8 @@ jobs:
       - name: Configure Build
         run: ./build/configure-ci-build.ps1
         shell: pwsh
-        
-      # ---------------------------------------        
+
+      # ---------------------------------------
       # Restore, Build and Test
       # ---------------------------------------
       - name: Nuget Restore
@@ -63,14 +59,14 @@ jobs:
         run: dotnet build ${{env.SLN_PATH}} --configuration ${{env.BUILD_CONFIG}} --no-restore --verbosity normal
 
       - name: Test Solution
-        run: dotnet test ${{env.SLN_PATH}} --configuration ${{env.BUILD_CONFIG}}  --no-restore --no-build 
+        run: dotnet test ${{env.SLN_PATH}} --configuration ${{env.BUILD_CONFIG}}  --no-restore --no-build
 
-      # ---------------------------------------        
+      # ---------------------------------------
       # Preflight Checks and Packaging
       # ---------------------------------------
       - name: Pre-Package Inspection
-        run: | 
-          ./build/pre-package-checks.ps1 -csProjFile "${{env.PRIMARY_LIB_PATH}}"       -versionNumber ${{inputs.version-number}} -versionSuffix "${{inputs.version-suffix}}" 
+        run: |
+          ./build/pre-package-checks.ps1 -csProjFile "${{env.PRIMARY_LIB_PATH}}"       -versionNumber ${{inputs.version-number}} -versionSuffix "${{inputs.version-suffix}}"
           ./build/pre-package-checks.ps1 -csProjFile "${{env.SUBSCRIPTIONS_LIB_PATH}}" -versionNumber ${{inputs.version-number}} -versionSuffix "${{inputs.version-suffix}}"
         shell: pwsh
 
@@ -79,27 +75,27 @@ jobs:
           dotnet pack "${{env.PRIMARY_LIB_PATH}}"       --configuration ${{env.BUILD_CONFIG}} --no-restore --include-symbols --output ${{env.OUTPUT_DIR}} /p:VersionPrefix=${{inputs.version-number}} /p:VersionSuffix="${{inputs.version-suffix}}"
           dotnet pack "${{env.SUBSCRIPTIONS_LIB_PATH}}" --configuration ${{env.BUILD_CONFIG}} --no-restore --include-symbols --output ${{env.OUTPUT_DIR}} /p:VersionPrefix=${{inputs.version-number}} /p:VersionSuffix="${{inputs.version-suffix}}"
 
-      # ---------------------------------------        
+      # ---------------------------------------
       # Save Artifacts for later debugging
       # ---------------------------------------
       - uses: actions/upload-artifact@v3
-        name: Save Artifacts        
+        name: Save Artifacts
         with:
            name: generated-nuget-packages
            path: ${{env.OUTPUT_DIR}}/*
 
-      # ---------------------------------------        
+      # ---------------------------------------
       # Post Processing Checks
       # ---------------------------------------
-      - name: Post-Package Inspection 
+      - name: Post-Package Inspection
         run: |
           ./build/post-package-checks.ps1 -csProjFile "${{env.PRIMARY_LIB_PATH}}"       -versionNumber ${{inputs.version-number}} -versionSuffix "${{inputs.version-suffix}}"  -outputDirectory ${{env.OUTPUT_DIR}}
           ./build/post-package-checks.ps1 -csProjFile "${{env.SUBSCRIPTIONS_LIB_PATH}}" -versionNumber ${{inputs.version-number}} -versionSuffix "${{inputs.version-suffix}}"  -outputDirectory ${{env.OUTPUT_DIR}}
         shell: pwsh
 
-      # ---------------------------------------        
+      # ---------------------------------------
       # Deploy to Nuget
       # ---------------------------------------
-      - name: Publish To Nuget 
+      - name: Publish To Nuget
         run: dotnet nuget push "${{env.OUTPUT_DIR}}/*.nupkg" --source 'https://api.nuget.org/v3/index.json' --api-key "${{env.NUGET_KEY}}"
 

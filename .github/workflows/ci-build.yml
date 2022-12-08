@@ -1,8 +1,8 @@
 # This action executes on every push to master (usually as a result of a PR)
-# and commit to a branch that is a PR against master 
+# and commit to a branch that is a PR against master
 # to ensure the code base is up to standards
 #
-# Expected Standards 
+# Expected Standards
 # -----------------------------
 # 0 failed units
 # 0 Build Errors, 0 Build Warnings
@@ -17,11 +17,9 @@ on:
   pull_request:
     branches:
       - master
-      
-env: 
+
+env:
   SLN_PATH: ./src/bobs-fishing.sln
-  DOTNET_CURRENT: 6.x
-  DOTNET_LTS: 3.1.x
 
 jobs:
   build:
@@ -31,19 +29,17 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         name: Checkout Code
-      
+
       # ---------------------------------------
       # Install .NET Versions
       # ---------------------------------------
       - uses: actions/setup-dotnet@v2
-        name: Install .NET (${{ env.DOTNET_LTS }})
+        name: Install .NET
         with:
-          dotnet-version: ${{ env.DOTNET_LTS }}
-
-      - uses: actions/setup-dotnet@v2
-        name: Install .NET (${{ env.DOTNET_CURRENT }})
-        with:
-          dotnet-version: ${{ env.DOTNET_CURRENT }}
+          dotnet-version: |
+            3.1.x
+            6.x
+            7.x
 
       # ---------------------------------------
       # Configure the build environment
@@ -52,7 +48,7 @@ jobs:
         run: ./build/configure-ci-build.ps1
         shell: pwsh
 
-      # ---------------------------------------        
+      # ---------------------------------------
       # Restore, Build and Test
       # ---------------------------------------
       - name: Nuget Restore
